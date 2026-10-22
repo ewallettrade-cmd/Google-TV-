@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Tv - Gestion de compte 1xbet</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1a202c;
+            --text-muted: #64748b;
+            --primary-orange: #ff7b00;
+            --primary-blue: #2563eb;
+            --border-color: #e2e8f0;
+        }
+
+        /* --- OPTIMISATION ULTRA-RAPIDE DES INTERACTIONS --- */
+        * {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- ÉCRAN DE MAINTENANCE PLEIN ÉCRAN --- */
+        #maintenance-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .maint-title-orange {
+            color: #ff7b00;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .maint-title-black {
+            color: #000000;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin: 0 0 10px 0;
+            line-height: 1.1;
+        }
+
+        .maint-icon {
+            font-size: 40px;
+            margin-bottom: 25px;
+        }
+
+        .maint-text-bold {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+
+        .maint-text-sub {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .btn-maint-logout {
+            background: #f1f5f9;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* En-tête principal */
+        #main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            background: var(--primary-orange);
+            color: white;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- STYLES AUTHENTIFICATION --- */
+        .auth-container {
+            max-width: 450px;
+            margin: 40px auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .auth-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-orange), #ff5500);
+            border-radius: 20px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 10px 20px rgba(255, 123, 0, 0.2);
+        }
+
+        .auth-container .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .auth-container label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .btn-auth {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-orange), #ff5500);
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(255, 123, 0, 0.2);
+            transition: none !important;
+        }
+
+        .btn-auth:active { background-color: #e66e00; }
+
+        .btn-auth-alt {
+            width: 100%;
+            background: #f1f5f9;
+            color: var(--text-main);
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: none !important;
+        }
+        .btn-auth-alt:active { background: #e2e8f0; }
+        
+        .pending-box {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .pending-icon { font-size: 40px; margin-bottom: 10px; }
+
+        /* --- STYLES PRÉSENTATION PRO LANDING --- */
+        .landing-presentation {
+            text-align: left;
+            margin: 20px 0;
+            font-size: 13px;
+            color: var(--text-main);
+            line-height: 1.5;
+            background: #fafafa;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .landing-presentation h3 {
+            font-size: 14px;
+            color: var(--primary-orange);
+            margin: 12px 0 6px 0;
+            font-weight: 700;
+        }
+
+        .landing-presentation ul {
+            margin: 0;
+            padding-left: 15px;
+        }
+
+        .landing-presentation li {
+            margin-bottom: 6px;
+        }
+
+        /* --- STYLES TABLEAU DE BORD --- */
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .welcome-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #ff8c00, #ff5500);
+            color: white;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(255, 123, 0, 0.2);
+        }
+
+        .balance-card .label { font-size: 13px; opacity: 0.9; margin-bottom: 5px; }
+        .balance-card .amount { font-size: 28px; font-weight: 800; }
+        .balance-card .wallet-icon { font-size: 36px; opacity: 0.8; }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .icon-views { background: #ede9fe; color: #7c3aed; }
+        .icon-likes { background: #fee2e2; color: #dc2626; }
+        .icon-favs { background: #fef3c7; color: #d97706; }
+        .icon-active { background: #dcfce7; color: #16a34a; }
+
+        .stat-info .number { font-size: 18px; font-weight: 700; }
+        .stat-info .text { font-size: 13px; color: var(--text-muted); }
+
+        .section-title { font-size: 18px; font-weight: 700; margin: 25px 0 15px 0; }
+
+        .action-btn-blue {
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        .action-btn-blue:active { opacity: 0.8; }
+
+        .action-card-white {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        .action-card-white:active { background: #f1f5f9; }
+
+        .action-card-white .left { display: flex; align-items: center; gap: 15px; }
+        .action-card-white .icon { font-size: 20px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
+        .action-card-white .info .title { font-size: 15px; font-weight: 700; }
+        .action-card-white .info .desc { font-size: 12px; color: var(--text-muted); }
+        .arrow { color: var(--text-muted); font-size: 18px; }
+
+        .transaction-box {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            box-sizing: border-box;
+            background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%2364748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') no-repeat 15px center;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        /* Style des cartes de jeux */
+        .game-card-item {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .game-media-container { position: relative; width: 100%; height: 220px; background: #000; }
+        .game-media-container img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+        .play-overlay-btn {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--primary-blue); color: white; width: 56px; height: 56px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 22px; cursor: pointer; box-shadow: 0 4px 15px rgba(37,99,235,0.4);
+        }
+        .play-overlay-btn:active { opacity: 0.8; }
+        .game-card-content { padding: 20px; }
+        .game-title-text { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
+        .game-badges-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .badge-price-view { background: #ede9fe; color: #7c3aed; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .badge-price-like { background: #fee2e2; color: #dc2626; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .badge-price-fav { background: #fef3c7; color: #d97706; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        
+        .game-actions-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-top: 1px solid var(--border-color); padding-top: 15px; }
+        .btn-action-game {
+            flex: 1; min-width: 110px; padding: 10px 14px; border-radius: 10px; font-size: 13px;
+            font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            gap: 6px; border: 1px solid var(--border-color); background: #fff;
+        }
+        .btn-action-game:active { background: #f1f5f9; }
+        .btn-action-game.primary { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+        .btn-action-game.primary:active { background: #1d4ed8; }
+
+        /* Vues tableaux & Admin */
+        .user-table-container { background: var(--card-bg); border-radius: 14px; border: 1px solid var(--border-color); overflow: hidden; }
+        .user-row { padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .user-row:last-child { border-bottom: none; }
+        .user-info .name { font-weight: 700; font-size: 15px; }
+        .user-info .email { font-size: 13px; color: var(--text-muted); text-decoration: underline; }
+        .user-meta { font-size: 13px; color: var(--text-muted); }
+        .user-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+        .btn-action-sm { padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; }
+        .btn-active { background: #dcfce7; color: #16a34a; }
+        .btn-suspended { background: #fee2e2; color: #dc2626; }
+        .btn-maint-active { background: #ff7b00; color: #ffffff; }
+        .btn-maint-off { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+        .btn-retrait-off { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
+        .btn-retrait-on { background: #dcfce7; color: #16a34a; border: 1px solid #bbf7d0; }
+        .btn-bank-active { background: #16a34a; color: #ffffff; border: 1px solid #15803d; }
+        .btn-bank-off { background: #dc2626; color: #ffffff; border: 1px solid #b91c1c; }
+        .btn-bet-active { background: #7c3aed; color: #ffffff; border: 1px solid #6d28d9; }
+        .btn-bet-off { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+        .btn-fail-transfer-on { background: #f59e0b; color: #ffffff; border: 1px solid #d97706; }
+        .btn-fail-transfer-off { background: #f1f5f9; color: #64748b; border: 1px solid #cbd5e1; }
+
+        .btn-icon-sq { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
+        .btn-icon-sq:active { background: #f1f5f9; }
+
+        .video-top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-add-video { background: var(--primary-blue); color: white; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+
+        .retrait-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .retrait-tab { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-color); background: #fff; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+        .retrait-tab.active { background: #f1f5f9; color: var(--text-main); border-color: #cbd5e1; }
+        .badge-count { background: #dc2626; color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+
+        .table-card { background: var(--card-bg); border-radius: 14px; border: 1px solid var(--border-color); overflow: hidden; }
+        .table-header-row { display: grid; grid-template-columns: 2fr 1.2fr 1.2fr 1.2fr 1.8fr; padding: 12px 20px; font-size: 12px; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border-color); background: #fafafa; }
+        .table-row { display: grid; grid-template-columns: 2fr 1.2fr 1.2fr 1.2fr 1.8fr; padding: 15px 20px; align-items: center; border-bottom: 1px solid var(--border-color); font-size: 13px; }
+        .table-row:last-child { border-bottom: none; }
+        .user-col .uname { font-weight: 700; color: var(--text-main); }
+        .user-col .uemail { font-size: 12px; color: var(--text-muted); text-decoration: underline; }
+        .amount-col { font-weight: 800; color: var(--text-main); }
+        .momo-col .m-network { font-weight: 600; color: var(--text-main); }
+        .momo-col .m-num { font-size: 12px; color: var(--text-muted); }
+        .date-col { font-size: 12px; color: var(--text-muted); line-height: 1.3; }
+        .actions-col { display: flex; gap: 6px; align-items: center; }
+
+        .btn-approve { background: #2563eb; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .btn-reject { background: #fff; color: #dc2626; border: 1px solid #fecaca; padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; box-sizing: border-box; }
+        .modal-overlay.active { display: flex; }
+        .modal-card { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 16px; padding: 25px; box-sizing: border-box; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: 700; font-size: 18px; }
+        .modal-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+        
+        .form-control { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); font-size: 14px; box-sizing: border-box; margin-bottom: 15px; outline: none; }
+        .form-control:focus { border-color: var(--primary-orange); }
+        
+        .modal-btns { display: flex; gap: 10px; margin-bottom: 15px; }
+        .modal-btn-tab { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); background: #fff; font-weight: 600; cursor: pointer; text-align: center; }
+        .modal-btn-tab.active { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); }
+        .btn-primary-full { width: 100%; background: var(--primary-blue); color: white; padding: 12px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
+
+        .sidebar { position: fixed; top: 0; right: -100%; width: 80%; max-width: 300px; height: 100%; background: var(--card-bg); box-shadow: -5px 0 25px rgba(0,0,0,0.1); z-index: 1000; transition: right 0.2s ease; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; }
+        .sidebar.open { right: 0; }
+        .sidebar-header { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+        .close-btn { background: #ede9fe; color: #7c3aed; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 18px; cursor: pointer; }
+        .menu-item { padding: 12px 0; font-size: 16px; font-weight: 500; color: var(--text-main); border-bottom: 1px solid var(--border-color); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .menu-item:active { background: #f1f5f9; }
+        .badge-support { background: #dc2626; color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; }
+        .admin-section-title { color: #2563eb; font-weight: 700; margin-top: 15px; margin-bottom: 10px; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: none; z-index: 900; }
+        .overlay.active { display: block; }
+
+        /* Onglets choix de retrait */
+        .retrait-method-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .method-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            background: #f8fafc;
+        }
+        .method-btn.active {
+            border-color: var(--primary-orange);
+            background: #fff7ed;
+            color: var(--primary-orange);
+        }
+
+        /* --- STYLES MODAL CHARGEMENT ET ECHEC BET --- */
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 20px;
+            margin: 15px 0;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff7b00, #2563eb);
+            width: 0%;
+            transition: width 0.05s linear;
+        }
+        .bet-message-card {
+            background: #fff1f2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            color: #9f1239;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="maintenance-screen" class="hidden">
+        <h1 class="maint-title-orange">GOOGLE TV</h1>
+        <h1 class="maint-title-black">MISE À JOUR</h1>
+        <div class="maint-icon">!</div>
+        <div class="maint-text-bold">Ce site Internet est actuellement indisponible pour la mise à jour Google Tv.</div>
+        <div class="maint-text-sub">Veuillez nous excuser pour la gêne occasionnée.</div>
+        <button class="btn-maint-logout" onclick="deconnecter()">Se déconnecter</button>
+    </div>
+
+    <header id="main-header" class="hidden">
+        <div class="logo-container" onclick="redirigerAccueilPrincipal()">
+            <div class="logo-icon">TV</div>
+            <span>Google Tv</span>
+        </div>
+        <div class="header-icons">
+            <span onclick="ouvrirModalProfilClient()" title="Mon Profil & Numéro">👤</span>
+            <span onclick="toggleMenu()">☰</span>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div id="view-landing" class="auth-container" style="max-width: 480px;">
+            <div class="auth-icon" style="background: linear-gradient(135deg, #2563eb, #1d4ed8);">TV</div>
+            <h1 class="welcome-title" style="font-size: 28px; line-height: 1.2;">Ombres de la Nuit</h1>
+            <p class="welcome-subtitle" style="font-size: 14px; margin-bottom: 25px;">Une expérience vidéo repensée pour transformer chaque session en un parcours interactif et captivant.</p>
+            
+            <button class="btn-auth" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); margin-bottom: 12px;" onclick="changerVue('register')">Obtenir 3 mois offerts</button>
+            <button class="btn-auth-alt" style="margin-bottom: 25px;" onclick="changerVue('register')">Découvrir les Offres</button>
+
+            <div style="text-align: left; font-weight: 700; font-size: 15px; margin-bottom: 12px; color: var(--text-main);">Étape 1 : Choisissez votre formule</div>
+
+            <!-- Formule Standard -->
+            <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                <div style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">Standard</div>
+                <div style="font-size: 24px; font-weight: 800; color: #2563eb; margin-bottom: 8px;">6 300 FCFA</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Bonus de 3% | Gains de 50.000 à 75.000 FCFA / jour.</div>
+                <button class="btn-auth" style="margin-top: 0; background: #2563eb; padding: 12px;" onclick="selectionnerFormuleEtInscription('standard')">Choisir la formule Standard</button>
+            </div>
+
+            <!-- Formule Premium -->
+            <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                <div style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">Premium</div>
+                <div style="font-size: 24px; font-weight: 800; color: #16a34a; margin-bottom: 8px;">8 300 FCFA</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Bonus de 6% | Gains de 90.000 à 140.000 FCFA / jour.</div>
+                <button class="btn-auth" style="margin-top: 0; background: #16a34a; padding: 12px;" onclick="selectionnerFormuleEtInscription('premium')">Choisir la formule Premium</button>
+            </div>
+
+            <!-- Formule Populaire -->
+            <div style="background: #ffffff; border: 1px solid #f59e0b; border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                <span style="background: #f59e0b; color: white; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; display: inline-block; margin-bottom: 8px;">Populaire</span>
+                <div style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">VIP</div>
+                <div style="font-size: 24px; font-weight: 800; color: #d97706; margin-bottom: 8px;">15 000 FCFA</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Bonus de 10% | Gains de 250.000 à 320.000 FCFA / jour.</div>
+                <button class="btn-auth" style="margin-top: 0; background: linear-gradient(135deg, #f59e0b, #d97706); padding: 12px;" onclick="selectionnerFormuleEtInscription('populaire')">Choisir la formule Populaire</button>
+            </div>
+
+            <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; text-align: left;">
+                <div style="font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">Déjà membre ? Connexion</div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">Entrez vos identifiants pour accéder à votre espace.</div>
+                <button class="btn-auth-alt" style="margin-top: 0;" onclick="changerVue('login')">Se connecter</button>
+            </div>
+        </div>
+
+        <div id="view-register" class="auth-container hidden">
+            <h2 class="welcome-title">Créer un compte</h2>
+            <p class="welcome-subtitle">Rejoignez la plateforme Google Tv</p>
+            
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" id="reg-nom" required placeholder="Dupont" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <input type="text" id="reg-prenom" required placeholder="Jean" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Date de naissance</label>
+                    <input type="date" id="reg-naissance" required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="reg-email" required placeholder="votre@email.com" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="reg-password" required placeholder="••••••••" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Pays (Afrique)</label>
+                    <select id="reg-country" required class="form-control">
+                        <option value="">Sélectionnez votre pays</option>
+                        <option value="Afrique du Sud">Afrique du Sud (ZAR)</option>
+                        <option value="Algérie">Algérie (DZD)</option>
+                        <option value="Angola">Angola (AOA)</option>
+                        <option value="Bénin">Bénin (FCFA)</option>
+                        <option value="Botswana">Botswana (BWP)</option>
+                        <option value="Burkina Faso">Burkina Faso (FCFA)</option>
+                        <option value="Burundi">Burundi (BIF)</option>
+                        <option value="Cameroun">Cameroun (FCFA)</option>
+                        <option value="Cap-Vert">Cap-Vert (CVE)</option>
+                        <option value="Centrafrique">Centrafrique (FCFA)</option>
+                        <option value="Congo">Congo (FCFA)</option>
+                        <option value="RDC">République démocratique du Congo (CDF)</option>
+                        <option value="Côte d'Ivoire">Côte d'Ivoire (FCFA)</option>
+                        <option value="Égypte">Égypte (EGP)</option>
+                        <option value="Gabon">Gabon (FCFA)</option>
+                        <option value="Ghana">Ghana (GHS)</option>
+                        <option value="Guinée">Guinée (GNF)</option>
+                        <option value="Kenya">Kenya (KES)</option>
+                        <option value="Mali">Mali (FCFA)</option>
+                        <option value="Maroc">Maroc (MAD)</option>
+                        <option value="Niger">Niger (FCFA)</option>
+                        <option value="Nigeria">Nigeria (NGN)</option>
+                        <option value="Sénégal">Sénégal (FCFA)</option>
+                        <option value="Tchad">Tchad (FCFA)</option>
+                        <option value="Togo">Togo (FCFA)</option>
+                        <option value="Tunisie">Tunisie (TND)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-auth">Créer mon compte</button>
+            </form>
+            <div style="margin-top: 15px; font-size: 13px; cursor: pointer; color: var(--text-muted);" onclick="changerVue('login')">
+                Déjà un compte ? Connectez-vous
+            </div>
+        </div>
+
+        <div id="view-login" class="auth-container hidden">
+            <h2 class="welcome-title">Connexion</h2>
+            <p class="welcome-subtitle">Accédez à votre espace Google Tv</p>
+            
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="login-email" required placeholder="admin@1xbet.com ou votre@email.com" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="form-control">
+                </div>
+                <button type="submit" class="btn-auth">Se connecter</button>
+            </form>
+            <div style="margin-top: 15px; font-size: 13px; cursor: pointer; color: var(--text-muted);" onclick="changerVue('register')">
+                Pas de compte ? S'inscrire
+            </div>
+        </div>
+
+        <div id="view-pending" class="auth-container hidden">
+            <div class="pending-icon">⏳</div>
+            <h2 class="welcome-title">Compte en attente</h2>
+            <p class="welcome-subtitle">Votre compte a bien été créé. Il est actuellement en attente d'activation par un administrateur.</p>
+            
+            <div class="pending-box">
+                <div style="font-size: 13px; margin-bottom: 8px;"><strong>Email :</strong> <span id="pending-user-email">-</span></div>
+                <div style="font-size: 13px; margin-bottom: 8px;"><strong>Pays :</strong> <span id="pending-user-country">-</span></div>
+                <div style="font-size: 13px; margin-top: 8px;"><strong>Formule choisie :</strong> <span id="pending-user-formule" style="font-weight: 700; color: #ff7b00; text-transform: uppercase;">-</span></div>
+            </div>
+
+            <button class="btn-auth-alt" style="margin-bottom: 10px;" onclick="alert('L\'assistance a été notifiée.')">Contacter l'assistance</button>
+            <button class="btn-auth-alt" style="background: #fff; color: #dc2626; border-color: #fecaca;" onclick="deconnecter()">Se déconnecter</button>
+        </div>
+
+        <div id="view-dashboard" class="hidden">
+            <div class="welcome-title" id="dashboard-welcome-title">Bienvenue ! 👋</div>
+            <div class="welcome-subtitle">Regardez les jeux 1XBET & 1XGAME et gagnez de l'argent facilement.</div>
+
+            <div class="balance-card">
+                <div>
+                    <div class="label">Votre solde</div>
+                    <div class="amount"><span id="solde">0</span> <span id="devise-label">FCFA</span></div>
+                </div>
+                <div class="wallet-icon">👛</div>
+            </div>
+
+            <div class="stat-card" style="background: #fff7ed; border-color: #ff7b00;">
+                <div class="stat-icon" style="background: #ff7b00; color: white;">⭐</div>
+                <div class="stat-info">
+                    <div class="number" id="dashboard-formule-nom" style="text-transform: uppercase; color: #ff7b00;">Standard</div>
+                    <div class="text" id="dashboard-formule-details">Bonus : 3% | Objectif : 50.000 à 75.000 FCFA / jour</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-views">👁</div>
+                <div class="stat-info">
+                    <div class="number" id="nb-vues">0</div>
+                    <div class="text">Vidéos / Sessions 1XGAME vues</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-likes">❤️</div>
+                <div class="stat-info">
+                    <div class="number" id="nb-likes">0</div>
+                    <div class="text">J'aime</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-favs">⭐</div>
+                <div class="stat-info">
+                    <div class="number" id="nb-favs">0</div>
+                    <div class="text">Favoris</div>
+                </div>
+            </div>
+
+            <div class="section-title">Actions rapides</div>
+
+            <div class="action-btn-blue" onclick="changerVue('jeux')">
+                <div class="icon">▶</div>
+                <div class="info">
+                    <div class="title" style="font-size: 16px; font-weight: 700;">Regarder 1XBET & 1XGAME</div>
+                    <div class="desc" style="font-size: 12px; opacity: 0.9;">Accédez aux jeux et cumulez vos gains</div>
+                </div>
+            </div>
+
+            <div class="action-card-white" id="card-action-retrait" onclick="ouvrirModalRetraitClient()">
+                <div class="left">
+                    <div class="icon" style="background: #fef3c7; color: #d97706;">💳</div>
+                    <div class="info">
+                        <div class="title">Effectuer un Retrait</div>
+                        <div class="desc">Demandez le retrait de vos gains</div>
+                    </div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+
+            <div id="admin-shortcut-card" class="action-card-white hidden" onclick="changerVue('admin')" style="border-color: #2563eb; background: #eff6ff;">
+                <div class="left">
+                    <div class="icon" style="background: #2563eb; color: white;">⚙️</div>
+                    <div class="info">
+                        <div class="title" style="color: #2563eb;">Accéder au Panneau Administrateur</div>
+                        <div class="desc">Gérer les utilisateurs, les retraits et les fonds</div>
+                    </div>
+                </div>
+                <div class="arrow" style="color: #2563eb;">›</div>
+            </div>
+
+            <div class="section-title">Transactions récentes</div>
+            <div class="transaction-box" id="transaction-box">
+                Aucune transaction récente
+            </div>
+        </div>
+
+        <div id="view-jeux" class="hidden">
+            <div class="back-link" onclick="changerVue('dashboard')">← Retour tableau de bord</div>
+            <div class="welcome-title" style="display:flex; align-items:center; gap:8px;">
+                <span>▶</span> Vidéos disponibles
+            </div>
+            <div class="welcome-subtitle">Remplissez les tâches pour atteindre votre objectif journalier</div>
+
+            <input type="text" class="search-bar" placeholder="Rechercher une vidéo ou un jeu..." onkeyup="filtrerJeuxCatalogue(this.value)">
+
+            <div id="liste-jeux-catalogue"></div>
+        </div>
+
+        <div id="view-admin" class="hidden">
+            <div class="back-link" onclick="changerVue('dashboard')">← Retour tableau de bord</div>
+            <div class="welcome-title">Administration Globale</div>
+            <div class="welcome-subtitle">Validez les comptes créés et gérez la plateforme</div>
+
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #eff6ff; color: #2563eb;">👥</div>
+                <div class="stat-info">
+                    <div class="number" id="admin-total-users">2</div>
+                    <div class="text">Utilisateurs inscrits</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon icon-active">✅</div>
+                <div class="stat-info">
+                    <div class="number" id="admin-active-users">2</div>
+                    <div class="text">Actifs</div>
+                </div>
+            </div>
+
+            <div class="action-card-white" onclick="changerVue('gestion-utilisateurs')">
+                <div class="left">
+                    <div class="icon" style="background: #eff6ff; color: #2563eb;">👥</div>
+                    <div class="info">
+                        <div class="title">Gestion des utilisateurs & Fonds</div>
+                        <div class="desc">Activer, ajouter des fonds ou configurer le Mobile Money / AFRICA BANK / BET</div>
+                    </div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+
+            <div class="action-card-white" onclick="changerVue('gestion-videos')">
+                <div class="left">
+                    <div class="icon" style="background: #fee2e2; color: #dc2626;">📹</div>
+                    <div class="info">
+                        <div class="title">Gestion des vidéos & jeux</div>
+                        <div class="desc">Publier et gérer les jeux 1XBET & 1XGAME</div>
+                    </div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+
+            <div class="action-card-white" onclick="changerVue('gestion-retraits')">
+                <div class="left">
+                    <div class="icon" style="background: #fef3c7; color: #d97706;">💳</div>
+                    <div class="info">
+                        <div class="title">Gestion des retraits</div>
+                        <div class="desc">Approuver ou rejeter les demandes de retrait</div>
+                    </div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+        </div>
+
+        <div id="view-gestion-utilisateurs" class="hidden">
+            <div class="back-link" onclick="changerVue('admin')">← Retour administration</div>
+            <div class="welcome-title">Gestion des utilisateurs</div>
+            <div class="welcome-subtitle" id="user-count-subtitle">Liste des inscrits</div>
+
+            <input type="text" class="search-bar" placeholder="Rechercher un utilisateur..." onkeyup="filtrerUtilisateurs(this.value)">
+
+            <div class="user-table-container" id="liste-utilisateurs"></div>
+        </div>
+
+        <div id="view-gestion-videos" class="hidden">
+            <div class="back-link" onclick="changerVue('admin')">← Retour administration</div>
+            
+            <div class="video-top-bar">
+                <div>
+                    <div class="welcome-title">📹 Gestion des Jeux</div>
+                    <div class="welcome-subtitle">Jeux publiés sur la plateforme</div>
+                </div>
+                <button class="btn-add-video" onclick="alerteAjoutVideo()">+ Ajouter un jeu</button>
+            </div>
+
+            <div id="liste-videos-admin"></div>
+        </div>
+
+        <div id="view-gestion-retraits" class="hidden">
+            <div class="back-link" onclick="changerVue('admin')">← Retour administration</div>
+            
+            <div class="welcome-title">💳 Gestion des retraits</div>
+            <div class="welcome-subtitle">Demandes de retraits des utilisateurs</div>
+
+            <div class="retrait-tabs">
+                <div class="retrait-tab active" id="tab-attente" onclick="filtrerOngletRetrait('attente')">
+                    En attente <span class="badge-count" id="badge-attente-count">2</span>
+                </div>
+                <div class="retrait-tab" id="tab-traites" onclick="filtrerOngletRetrait('traites')">
+                    Traités
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header-row">
+                    <div>Utilisateur</div>
+                    <div>Montant</div>
+                    <div>Mode / Détails</div>
+                    <div>Date</div>
+                    <div>Actes</div>
+                </div>
+                <div id="liste-demandes-retrait"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL PROFIL & CONFIGURATION NUMERO CLIENT -->
+    <div class="modal-overlay" id="modal-profil-client">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span>Mon Profil & Paramètres</span>
+                <span style="cursor:pointer;" onclick="fermerModal('modal-profil-client')">✕</span>
+            </div>
+            <div class="modal-subtitle">Mettez à jour vos informations personnelles.</div>
+            
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Nom</div>
+            <input type="text" class="form-control" id="profile-input-nom" placeholder="Votre nom">
+
+            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">Prénom</div>
+            <input type="text" class="form-control" id="profile-input-prenom" placeholder="Votre prénom">
+
+            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">Date de naissance</div>
+            <input type="date" class="form-control" id="profile-input-naissance">
+
+            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">Réseau Mobile Money</div>
+            <select class="form-control" id="profile-select-reseau">
+                <option value="Non configuré">Aucun</option>
+                <option value="Orange Money">Orange Money</option>
+                <option value="MTN Mobile Money">MTN Mobile Money</option>
+                <option value="Moov Money">Moov Money</option>
+                <option value="Airtel Money">Airtel Money</option>
+                <option value="Wave">Wave</option>
+            </select>
+
+            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">Numéro de téléphone</div>
+            <input type="text" class="form-control" id="profile-input-numero" placeholder="Ex: +229XXXXXXXX">
+
+            <button class="btn-auth" style="margin-top: 0; background: linear-gradient(135deg, #2563eb, #1d4ed8);" onclick="sauvegarderProfilClient()">Enregistrer les modifications</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-retrait-client">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span>Demander un retrait</span>
+                <span style="cursor:pointer;" onclick="fermerModal('modal-retrait-client')">✕</span>
+            </div>
+            <div class="modal-subtitle">Votre demande sera traitée par un administrateur.</div>
+            
+            <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-bottom: 15px;">
+                <div style="font-size: 13px; margin-bottom: 5px;"><strong>Solde disponible :</strong> <span id="modal-retrait-solde" style="color: var(--text-main); font-weight: 700;">0 FCFA</span></div>
+            </div>
+
+            <div id="container-mode-retrait" class="retrait-method-selector hidden">
+                <div class="method-btn active" id="btn-method-momo" onclick="selectionnerMethodeRetrait('momo')">Mobile Money</div>
+                <div class="method-btn" id="btn-method-africa" onclick="selectionnerMethodeRetrait('africa_bank')">AFRICA BANK</div>
+            </div>
+
+            <div id="section-retrait-momo">
+                <div style="font-size: 13px; margin-bottom: 10px;"><strong>Mobile Money :</strong> <span id="modal-retrait-momo" style="font-weight: 600;">Non configuré</span></div>
+                <div id="alerte-momo-config" class="hidden" style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 12px; font-size: 12px; color: #92400e; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                    <span>⚠️</span> Veuillez configurer votre numéro Mobile Money dans votre profil
+                </div>
+            </div>
+
+            <div id="section-retrait-africa-bank" class="hidden">
+                <div style="font-size: 13px; font-weight: 700; color: #2563eb; margin-bottom: 10px;">Formulaire AFRICA BANK</div>
+                
+                <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">Numéro compte Bank</div>
+                <input type="text" class="form-control" id="input-africa-account" placeholder="Ex: 00123456789">
+
+                <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">BIC / SWIFT</div>
+                <input type="text" class="form-control" id="input-africa-swift" placeholder="Ex: AFBKKIBXX">
+
+                <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">NOM ET PRÉNOM</div>
+                <input type="text" class="form-control" id="input-africa-fullname" placeholder="Ex: Jean Dupont">
+
+                <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">CODE POSTAL</div>
+                <input type="text" class="form-control" id="input-africa-zip" placeholder="Ex: 00229">
+            </div>
+
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Montant (<span id="modal-devise-text">FCFA</span>)</div>
+            <input type="number" class="form-control" id="input-retrait-client-montant" placeholder="Entrez le montant">
+            <button class="btn-auth" style="margin-top: 0; background: linear-gradient(135deg, #ff8c00, #ff5500);" onclick="soumettreDemandeRetraitClient()">Envoyer la demande</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-bet-progress">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span id="bet-modal-title">Traitement du retrait...</span>
+                <span style="cursor:pointer;" onclick="fermerModal('modal-bet-progress')">✕</span>
+            </div>
+            
+            <div id="bet-loader-container">
+                <div style="font-size: 14px; text-align: center; color: var(--text-muted);">Vérification de la transaction en cours...</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="bet-progress-fill"></div>
+                </div>
+                <div style="text-align: center; font-weight: 700; font-size: 16px;" id="bet-percentage-text">1%</div>
+            </div>
+
+            <div id="bet-result-container" class="hidden">
+                <div class="bet-message-card">
+                    <strong style="font-size: 15px; display: block; margin-bottom: 8px; color: #dc2626;">Échec de paiement (Carte refusée / Prélèvement rejeté)</strong>
+                    <p style="margin: 0 0 10px 0;"><strong>Objet :</strong> Échec de votre paiement - [BET]</p>
+                    <p style="margin: 0 0 10px 0;">* <strong>Message :</strong> Bonjour, la tentative de paiement pour votre abonnement a échoué. Merci de mettre à jour vos coordonnées bancaires ou de réessayer ici :</p>
+                    <p style="margin: 0 0 10px 0;">Ce message pour vous transmettre la facture N° [95067] d'un montant de [305] €, correspondant à [BET].</p>
+                    <p style="margin: 0 0 10px 0;">Vous pouvez effectuer le règlement par [Virement / Carte bancaire / Lien de paiement].</p>
+                    <p style="margin: 0 0 10px 0;">Merci pour votre confiance.<br>Cordialement,</p>
+                    <p style="margin: 0; font-weight: 700; color: #1a202c;" id="bet-user-fullname-display">[Votre Prénom/Nom]</p>
+                </div>
+                <button class="btn-auth" style="margin-top: 15px; background: #dc2626;" onclick="fermerModal('modal-bet-progress')">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-fonds">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span>Gérer les fonds</span>
+                <span style="cursor:pointer;" onclick="fermerModal('modal-fonds')">✕</span>
+            </div>
+            <div class="modal-subtitle" id="modal-fonds-subtitle">Solde</div>
+            <div class="modal-btns">
+                <button class="modal-btn-tab active" id="tab-ajouter" onclick="setModeFonds('ajouter')">Ajouter</button>
+                <button class="modal-btn-tab" id="tab-retirer" onclick="setModeFonds('retirer')">Retirer</button>
+            </div>
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Montant (<span id="modal-fonds-devise">FCFA</span>)</div>
+            <input type="number" class="form-control" id="input-montant-fonds" value="0">
+            <button class="btn-primary-full" onclick="validerFonds()">Confirmer</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-momo">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span>Configurer Mobile Money (Admin)</span>
+                <span style="cursor:pointer;" onclick="fermerModal('modal-momo')">✕</span>
+            </div>
+            <div class="modal-subtitle" id="modal-momo-subtitle">Utilisateur</div>
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Réseau</div>
+            <select class="form-control" id="select-reseau">
+                <option value="Non configuré">Aucun (Supprimer / Vider)</option>
+                <option value="Orange Money">Orange Money</option>
+                <option value="Telecel">Telecel</option>
+                <option value="MTN Mobile Money">MTN Mobile Money</option>
+                <option value="Moov Money">Moov Money</option>
+                <option value="Airtel Money">Airtel Money</option>
+                <option value="M-Pesa">M-Pesa</option>
+                <option value="Wave">Wave</option>
+                <option value="Tigo Cash">Tigo Cash</option>
+                <option value="Vodafone Cash">Vodafone Cash</option>
+                <option value="EcoCash">EcoCash</option>
+                <option value="Ti Money">Ti Money</option>
+                <option value="AfriMoney">AfriMoney</option>
+                <option value="OUAIS">OUAIS</option>
+                <option value="monnaie électronique">monnaie électronique</option>
+                <option value="Flooz">Flooz</option>
+                <option value="T-Money">T-Money</option>
+            </select>
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 5px;">Numéro</div>
+            <input type="text" class="form-control" id="input-numero-momo" placeholder="Laisser vide ou modifier le numéro">
+            <button class="btn-primary-full" onclick="sauvegarderMomo()">Économiser</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="close-btn" onclick="toggleMenu()">✕</button>
+        </div>
+        <div class="menu-item" onclick="changerVue('dashboard')">Tableau de bord</div>
+        <div class="menu-item" onclick="changerVue('jeux')">Vidéos</div>
+        <div class="menu-item" onclick="alert('Favoris')">Favoris</div>
+        <div class="menu-item" id="sidebar-item-retrait" onclick="ouvrirModalRetraitClient()">Retraits</div>
+        <div class="menu-item" onclick="alert('Parrainage')">Parrainage</div>
+        <div class="menu-item" onclick="alert('Assistance')">Assistance <span class="badge-support">99+</span></div>
+        <div class="menu-item" style="color: #dc2626;" onclick="deconnecter()">Déconnexion</div>
+        
+        <div id="sidebar-admin-section" class="hidden">
+            <div class="admin-section-title">Administration</div>
+            <div class="menu-item" style="color: #2563eb; font-weight: 600;" onclick="changerVue('admin')">Panneau Admin</div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDf6lDR3Pbk61dcs-VtRZBBEtnP1Td6g8Y",
+          authDomain: "gestion-de-compte-1xbet.firebaseapp.com",
+          projectId: "gestion-de-compte-1xbet",
+          storageBucket: "gestion-de-compte-1xbet.firebasestorage.app",
+          messagingSenderId: "189160986445",
+          appId: "1:189160986445:web:745f09c3843418a3178904",
+          measurementId: "G-6G4E7D261D"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.soldeUser = 0;
+        window.vues = 0;
+        window.likesCount = 0;
+        window.favsCount = 0;
+        window.modeFondsType = 'ajouter';
+        window.utilisateurActifId = null;
+        window.ongletActifRetrait = 'attente';
+        window.estAdminGlobal = false;
+        window.currentUserEmail = localStorage.getItem("currentUserEmail") || "";
+        window.methodeRetraitActive = "momo";
+        window.deviseActuelle = "FCFA";
+        window.historiqueTransactions = [];
+        window.formuleChoisieEnCours = "standard";
+        window.gainsJourActuel = 0;
+        window.derniereDateAction = "";
+
+        // Configuration exacte des formules avec fourchettes et bonus respectifs
+        const configurationFormules = {
+            standard: {
+                nom: "Standard",
+                bonus: 0.03,
+                bonusTxt: "3%",
+                gainsMin: 50000,
+                gainsMax: 75000,
+                details: "Bonus : 3% | Objectif : 50.000 à 75.000 FCFA / jour"
+            },
+            premium: {
+                nom: "Premium",
+                bonus: 0.06,
+                bonusTxt: "6%",
+                gainsMin: 90000,
+                gainsMax: 140000,
+                details: "Bonus : 6% | Objectif : 90.000 à 140.000 FCFA / jour"
+            },
+            populaire: {
+                nom: "Populaire (VIP)",
+                bonus: 0.10,
+                bonusTxt: "10%",
+                gainsMin: 250000,
+                gainsMax: 320000,
+                details: "Bonus : 10% | Objectif : 250.000 à 320.000 FCFA / jour"
+            }
+        };
+
+        window.selectionnerFormuleEtInscription = function(formule) {
+            window.formuleChoisieEnCours = formule;
+            changerVue('register');
+        }
+
+        window.fermerModal = function(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        window.deconnecter = function() {
+            localStorage.removeItem("currentUserEmail");
+            window.currentUserEmail = "";
+            window.estAdminGlobal = false;
+            window.deviseActuelle = "FCFA";
+            window.historiqueTransactions = [];
+            window.gainsJourActuel = 0;
+            document.getElementById('maintenance-screen').classList.add('hidden');
+            changerVue('login');
+        }
+
+        window.videos = [
+            { id: 1, titre: "1XGAME Crash & Lucky Jet", statut: "ACTIF", photo: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=600&auto=format&fit=crop&q=80" },
+            { id: 2, titre: "Rambo 2.1 - 1XBET", statut: "ACTIF", photo: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&auto=format&fit=crop&q=80" },
+            { id: 3, titre: "Balançoire Game Session", statut: "ACTIF", photo: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&auto=format&fit=crop&q=80" }
+        ];
+
+        window.demandesRetrait = [
+            { id: 1, nom: "Yapaya Michel", email: "michelyapaya@gmail.com", montant: "800 000 FCFA", reseau: "Orange Money", numero: "+23672562648", date: "30 juil. à 10:28", statut: "attente" },
+            { id: 2, nom: "TOGBÉ BAYE ALIFA", email: "togbebayealifa@gmail.com", montant: "1 000 000 FCFA", reseau: "Airtel Money", numero: "+235 68892863", date: "29 juil. à 21:31", statut: "attente" }
+        ];
+
+        function determinerDeviseParPays(pays) {
+            if (pays === "RDC" || pays === "République démocratique du Congo") {
+                return "CDF";
+            }
+            return "FCFA";
+        }
+
+        function mettreAJourAffichageDevise() {
+            document.getElementById('devise-label').innerText = window.deviseActuelle;
+            document.getElementById('modal-devise-text').innerText = window.deviseActuelle;
+            document.getElementById('modal-fonds-devise').innerText = window.deviseActuelle;
+        }
+
+        window.mettreAJourInterfaceTransactions = function() {
+            const box = document.getElementById('transaction-box');
+            if (!window.historiqueTransactions || window.historiqueTransactions.length === 0) {
+                box.innerHTML = "Aucune transaction récente";
+                return;
+            }
+            let html = "";
+            window.historiqueTransactions.forEach(t => {
+                let badgeColor = t.statut === 'succes' ? '#16a34a' : '#dc2626';
+                html += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border-color);">
+                        <div>
+                            <div style="font-weight: 700; color: var(--text-main);">${t.titre}</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">${t.dateHeure}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: 800; color: var(--text-main);">${t.montant} ${window.deviseActuelle}</div>
+                            <div style="font-size: 11px; font-weight: 600; color: ${badgeColor};">${t.messageStatut}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            box.innerHTML = html;
+        }
+
+        async function verifierMaintenanceUtilisateur() {
+            if (!window.currentUserEmail || window.currentUserEmail === "admin@1xbet.com") {
+                document.getElementById('maintenance-screen').classList.add('hidden');
+                return false;
+            }
+
+            try {
+                const docSnap = await getDoc(doc(db, "utilisateurs", window.currentUserEmail));
+                if (docSnap.exists()) {
+                    let u = docSnap.data();
+                    if (u.maintenance === true) {
+                        document.getElementById('maintenance-screen').classList.remove('hidden');
+                        document.getElementById('main-header').classList.add('hidden');
+                        return true;
+                    }
+                }
+            } catch (err) {
+                console.error("Erreur verif maintenance:", err);
+            }
+
+            document.getElementById('maintenance-screen').classList.add('hidden');
+            return false;
+        }
+
+        window.toggleMenu = function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        window.redirigerAccueilPrincipal = function() {
+            changerVue('dashboard');
+        }
+
+        window.changerVue = async function(vue) {
+            if(document.getElementById('sidebar').classList.contains('open')) {
+                toggleMenu();
+            }
+
+            const enMaintenance = await verifierMaintenanceUtilisateur();
+            if (enMaintenance) return;
+            
+            const vuesList = ['view-landing', 'view-register', 'view-login', 'view-pending', 'view-dashboard', 'view-jeux', 'view-admin', 'view-gestion-utilisateurs', 'view-gestion-videos', 'view-gestion-retraits'];
+            vuesList.forEach(v => document.getElementById(v).classList.add('hidden'));
+
+            const isAuthView = ['landing', 'register', 'login', 'pending'].includes(vue);
+            if (isAuthView) {
+                document.getElementById('main-header').classList.add('hidden');
+            } else {
+                document.getElementById('main-header').classList.remove('hidden');
+                if (vue === 'dashboard') await chargerDonneesUtilisateur();
+                if (vue === 'admin') mettreAJourStatsAdmin();
+                if (vue === 'gestion-utilisateurs') await afficherUtilisateursFromFirebase();
+            }
+
+            if(vue === 'jeux') afficherCatalogueJeux();
+            if(vue === 'gestion-videos') afficherVideosAdmin();
+            if(vue === 'gestion-retraits') afficherDemandesRetrait();
+
+            document.getElementById('view-' + vue).classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        window.handleRegister = async function(e) {
+            e.preventDefault();
+            const nom = document.getElementById('reg-nom').value;
+            const prenom = document.getElementById('reg-prenom').value;
+            const naissance = document.getElementById('reg-naissance').value;
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            const motdepasse = document.getElementById('reg-password').value;
+            const pays = document.getElementById('reg-country').value;
+            const formuleChoisie = window.formuleChoisieEnCours || "standard";
+            
+            try {
+                await setDoc(doc(db, "utilisateurs", email), {
+                    nom, prenom, naissance, email, motdepasse, pays, formule: formuleChoisie, solde: 0, statut: "en_attente", momoReseau: "Non configuré", momoNumero: "", vues: 0, likes: 0, favs: 0, maintenance: false, retraitDesactive: false, africaBankActif: false, messageEchecAfricaBank: false, betActif: false, historique: [], gainsJourActuel: 0, derniereDateAction: new Date().toLocaleDateString()
+                });
+                document.getElementById('pending-user-email').innerText = email;
+                document.getElementById('pending-user-country').innerText = pays || "Non spécifié";
+                document.getElementById('pending-user-formule').innerText = configurationFormules[formuleChoisie].nom;
+                changerVue('pending');
+            } catch (err) {
+                alert("Erreur lors de l'inscription : " + err.message);
+            }
+        }
+
+        window.handleLogin = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const motdepasse = document.getElementById('login-password').value;
+
+            if (email === "admin@1xbet.com") {
+                if (motdepasse !== "admin123") {
+                    alert("Mot de passe administrateur incorrect.");
+                    return;
+                }
+                localStorage.setItem("currentUserEmail", email);
+                window.currentUserEmail = email;
+                window.estAdminGlobal = true;
+                window.soldeUser = 50000;
+                window.deviseActuelle = "FCFA";
+                window.historiqueTransactions = [];
+                mettreAJourAffichageDevise();
+                document.getElementById('maintenance-screen').classList.add('hidden');
+                document.getElementById('solde').innerText = window.soldeUser.toLocaleString();
+                document.getElementById('dashboard-welcome-title').innerText = "Bienvenue, Administrateur Global ⚙️";
+                document.getElementById('admin-shortcut-card').classList.remove('hidden');
+                document.getElementById('sidebar-admin-section').classList.remove('hidden');
+                changerVue('dashboard');
+                return;
+            }
+
+            try {
+                const docRef = doc(db, "utilisateurs", email);
+                const docSnap = await getDoc(docRef);
+
+                if (!docSnap.exists()) {
+                    alert("Aucun compte trouvé avec cet e-mail. Veuillez vous inscrire.");
+                    changerVue('register');
+                    return;
+                }
+
+                let userData = docSnap.data();
+
+                if (userData.motdepasse !== motdepasse) {
+                    alert("Mot de passe incorrect. Veuillez réessayer.");
+                    return;
+                }
+
+                localStorage.setItem("currentUserEmail", email);
+                window.currentUserEmail = email;
+
+                if (userData.maintenance === true) {
+                    document.getElementById('maintenance-screen').classList.remove('hidden');
+                    document.getElementById('main-header').classList.add('hidden');
+                    const vuesList = ['view-landing', 'view-register', 'view-login', 'view-pending', 'view-dashboard', 'view-jeux', 'view-admin', 'view-gestion-utilisateurs', 'view-gestion-videos', 'view-gestion-retraits'];
+                    vuesList.forEach(v => document.getElementById(v).classList.add('hidden'));
+                    return;
+                }
+
+                if (userData.statut === "en_attente") {
+                    document.getElementById('pending-user-email').innerText = userData.email;
+                    document.getElementById('pending-user-country').innerText = userData.pays;
+                    document.getElementById('pending-user-formule').innerText = configurationFormules[userData.formule || 'standard'].nom;
+                    changerVue('pending');
+                    return;
+                }
+
+                let dateDuJour = new Date().toLocaleDateString();
+                window.gainsJourActuel = userData.gainsJourActuel || 0;
+                window.derniereDateAction = userData.derniereDateAction || "";
+
+                if (window.derniereDateAction !== dateDuJour) {
+                    window.gainsJourActuel = 0;
+                    window.derniereDateAction = dateDuJour;
+                    await updateDoc(docRef, { gainsJourActuel: 0, derniereDateAction: dateDuJour });
+                }
+
+                window.estAdminGlobal = false;
+                window.soldeUser = userData.solde || 0;
+                window.vues = userData.vues || 0;
+                window.likesCount = userData.likes || 0;
+                window.favsCount = userData.favs || 0;
+                window.deviseActuelle = determinerDeviseParPays(userData.pays);
+                window.historiqueTransactions = userData.historique || [];
+                window.formuleChoisieEnCours = userData.formule || 'standard';
+
+                mettreAJourAffichageDevise();
+                mettreAJourInterfaceTransactions();
+
+                let confFormule = configurationFormules[window.formuleChoisieEnCours];
+                document.getElementById('dashboard-formule-nom').innerText = confFormule.nom;
+                document.getElementById('dashboard-formule-details').innerText = confFormule.details;
+
+                document.getElementById('solde').innerText = window.soldeUser.toLocaleString();
+                document.getElementById('nb-vues').innerText = window.vues;
+                document.getElementById('nb-likes').innerText = window.likesCount;
+                document.getElementById('nb-favs').innerText = window.favsCount;
+                document.getElementById('dashboard-welcome-title').innerText = `Bienvenue, ${userData.nom || ''} ${userData.prenom || ''} ! 👋`;
+                
+                document.getElementById('admin-shortcut-card').classList.add('hidden');
+                document.getElementById('sidebar-admin-section').classList.add('hidden');
+
+                gererAffichageBoutonRetraitClient(userData.retraitDesactive);
+
+                changerVue('dashboard');
+            } catch (err) {
+                alert("Erreur de connexion : " + err.message);
+            }
+        }
+
+        function gererAffichageBoutonRetraitClient(estDesactive) {
+            const cardRetrait = document.getElementById('card-action-retrait');
+            const sidebarRetrait = document.getElementById('sidebar-item-retrait');
+
+            if (estDesactive) {
+                if(cardRetrait) cardRetrait.classList.add('hidden');
+                if(sidebarRetrait) sidebarRetrait.classList.add('hidden');
+            } else {
+                if(cardRetrait) cardRetrait.classList.remove('hidden');
+                if(sidebarRetrait) sidebarRetrait.classList.remove('hidden');
+            }
+        }
+
+        async function chargerDonneesUtilisateur() {
+            if (!window.currentUserEmail) return;
+            if (window.currentUserEmail === "admin@1xbet.com") {
+                window.soldeUser = 50000;
+                window.deviseActuelle = "FCFA";
+                window.historiqueTransactions = [];
+                mettreAJourAffichageDevise();
+                document.getElementById('solde').innerText = window.soldeUser.toLocaleString();
+                document.getElementById('dashboard-welcome-title').innerText = "Bienvenue, Administrateur Global ⚙️";
+                document.getElementById('admin-shortcut-card').classList.remove('hidden');
+                document.getElementById('sidebar-admin-section').classList.remove('hidden');
+                gererAffichageBoutonRetraitClient(false);
+                return;
+            }
+
+            const docRef = doc(db, "utilisateurs", window.currentUserEmail);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                let data = docSnap.data();
+
+                let dateDuJour = new Date().toLocaleDateString();
+                window.gainsJourActuel = data.gainsJourActuel || 0;
+                window.derniereDateAction = data.derniereDateAction || "";
+
+                if (window.derniereDateAction !== dateDuJour) {
+                    window.gainsJourActuel = 0;
+                    window.derniereDateAction = dateDuJour;
+                    await updateDoc(docRef, { gainsJourActuel: 0, derniereDateAction: dateDuJour });
+                }
+
+                window.soldeUser = data.solde || 0;
+                window.vues = data.vues || 0;
+                window.likesCount = data.likes || 0;
+                window.favsCount = data.favs || 0;
+                window.deviseActuelle = determinerDeviseParPays(data.pays);
+                window.historiqueTransactions = data.historique || [];
+                window.formuleChoisieEnCours = data.formule || 'standard';
+
+                mettreAJourAffichageDevise();
+                mettreAJourInterfaceTransactions();
+
+                let confFormule = configurationFormules[window.formuleChoisieEnCours];
+                document.getElementById('dashboard-formule-nom').innerText = confFormule.nom;
+                document.getElementById('dashboard-formule-details').innerText = confFormule.details;
+
+                document.getElementById('solde').innerText = window.soldeUser.toLocaleString();
+                document.getElementById('nb-vues').innerText = window.vues;
+                document.getElementById('nb-likes').innerText = window.likesCount;
+                document.getElementById('nb-favs').innerText = window.favsCount;
+                document.getElementById('dashboard-welcome-title').innerText = `Bienvenue, ${data.nom || ''} ${data.prenom || ''} ! 👋`;
+
+                gererAffichageBoutonRetraitClient(data.retraitDesactive);
+            }
+        }
+
+        // --- GESTION DU PROFIL CLIENT ---
+        window.ouvrirModalProfilClient = async function() {
+            if (!window.currentUserEmail || window.currentUserEmail === "admin@1xbet.com") {
+                alert("L'administrateur dispose d'un accès global.");
+                return;
+            }
+            const docRef = doc(db, "utilisateurs", window.currentUserEmail);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                let u = docSnap.data();
+                document.getElementById('profile-input-nom').value = u.nom || '';
+                document.getElementById('profile-input-prenom').value = u.prenom || '';
+                document.getElementById('profile-input-naissance').value = u.naissance || '';
+                document.getElementById('profile-select-reseau').value = u.profilReseau || 'Non configuré';
+                document.getElementById('profile-input-numero').value = u.profilNumero || '';
+                document.getElementById('modal-profil-client').classList.add('active');
+            }
+        }
+
+        window.sauvegarderProfilClient = async function() {
+            let nom = document.getElementById('profile-input-nom').value.trim();
+            let prenom = document.getElementById('profile-input-prenom').value.trim();
+            let naissance = document.getElementById('profile-input-naissance').value;
+            let reseauProfil = document.getElementById('profile-select-reseau').value;
+            let numeroProfil = document.getElementById('profile-input-numero').value.trim();
+
+            if (!window.currentUserEmail) return;
+
+            const docRef = doc(db, "utilisateurs", window.currentUserEmail);
+            await updateDoc(docRef, {
+                nom: nom,
+                prenom: prenom,
+                naissance: naissance,
+                profilReseau: reseauProfil,
+                profilNumero: numeroProfil
+            });
+
+            fermerModal('modal-profil-client');
+            alert("Profil mis à jour avec succès !");
+            await chargerDonneesUtilisateur();
+        }
+
+        window.selectionnerMethodeRetrait = function(methode) {
+            window.methodeRetraitActive = methode;
+            const btnMomo = document.getElementById('btn-method-momo');
+            const btnAfrica = document.getElementById('btn-method-africa');
+            const secMomo = document.getElementById('section-retrait-momo');
+            const secAfrica = document.getElementById('section-retrait-africa-bank');
+
+            if (methode === 'africa_bank') {
+                btnMomo.classList.remove('active');
+                btnAfrica.classList.add('active');
+                secMomo.classList.add('hidden');
+                secAfrica.classList.remove('hidden');
+            } else {
+                btnAfrica.classList.remove('active');
+                btnMomo.classList.add('active');
+                secAfrica.classList.add('hidden');
+                secMomo.classList.remove('hidden');
+            }
+        }
+
+        window.ouvrirModalRetraitClient = async function() {
+            let soldeActuel = window.soldeUser;
+            let momoInfo = 'Non configuré';
+            let africaBankActif = false;
+            let retraitDesactive = false;
+            let momoConfigured = false;
+
+            if (window.currentUserEmail && window.currentUserEmail !== "admin@1xbet.com") {
+                const docSnap = await getDoc(doc(db, "utilisateurs", window.currentUserEmail));
+                if (docSnap.exists()) {
+                    let u = docSnap.data();
+                    soldeActuel = u.solde || 0;
+                    retraitDesactive = u.retraitDesactive || false;
+                    africaBankActif = u.africaBankActif || false;
+                    // Vérification uniquement basée sur le paramétrage administrateur (momoReseau / momoNumero)
+                    if (u.momoReseau && u.momoReseau !== 'Non configuré' && u.momoNumero) {
+                        momoInfo = `${u.momoReseau} - ${u.momoNumero}`;
+                        momoConfigured = true;
+                    }
+                }
+            }
+
+            if (retraitDesactive) {
+                alert("L'option de retrait est désactivée pour votre compte.");
+                return;
+            }
+
+            document.getElementById('modal-retrait-solde').innerText = soldeActuel.toLocaleString() + " " + window.deviseActuelle;
+            document.getElementById('modal-retrait-momo').innerText = momoInfo;
+
+            if (!momoConfigured) {
+                document.getElementById('alerte-momo-config').classList.remove('hidden');
+            } else {
+                document.getElementById('alerte-momo-config').classList.add('hidden');
+            }
+
+            const selectorMode = document.getElementById('container-mode-retrait');
+            if (africaBankActif) {
+                selectorMode.classList.remove('hidden');
+            } else {
+                selectorMode.classList.add('hidden');
+            }
+
+            selectionnerMethodeRetrait('momo');
+
+            document.getElementById('input-retrait-client-montant').value = "";
+            document.getElementById('input-africa-account').value = "";
+            document.getElementById('input-africa-swift').value = "";
+            document.getElementById('input-africa-fullname').value = "";
+            document.getElementById('input-africa-zip').value = "";
+
+            document.getElementById('modal-retrait-client').classList.add('active');
+        }
+
+        window.lancerSimulationEchecBET = function(nomUtilisateur) {
+            fermerModal('modal-retrait-client');
+            const modalBet = document.getElementById('modal-bet-progress');
+            const loaderContainer = document.getElementById('bet-loader-container');
+            const resultContainer = document.getElementById('bet-result-container');
+            const progressFill = document.getElementById('bet-progress-fill');
+            const percentageText = document.getElementById('bet-percentage-text');
+            const modalTitle = document.getElementById('bet-modal-title');
+
+            modalTitle.innerText = "Traitement du retrait...";
+            loaderContainer.classList.remove('hidden');
+            resultContainer.classList.add('hidden');
+            progressFill.style.width = "1%";
+            percentageText.innerText = "1%";
+            modalBet.classList.add('active');
+
+            let currentPercent = 1;
+            const interval = setInterval(() => {
+                currentPercent += 5;
+                if(currentPercent > 100) currentPercent = 100;
+                progressFill.style.width = currentPercent + "%";
+                percentageText.innerText = currentPercent + "%";
+
+                if (currentPercent >= 50) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        modalTitle.innerText = "Échec de transaction";
+                        loaderContainer.classList.add('hidden');
+                        document.getElementById('bet-user-fullname-display').innerText = nomUtilisateur || "Nom d'utilisateur";
+                        resultContainer.classList.remove('hidden');
+                    }, 200);
+                }
+            }, 20);
+        }
+
+        window.soumettreDemandeRetraitClient = async function() {
+            let montant = document.getElementById('input-retrait-client-montant').value;
+            if(!montant || montant <= 0) { alert("Veuillez entrer un montant valide."); return; }
+
+            let nomUtilisateur = "Utilisateur";
+            let reseauMomo = 'Mobile Money';
+            let numMomo = 'Non configuré';
+            let simulerEchec = false;
+            let betActif = false;
+            let momoConfigure = false;
+
+            if (window.currentUserEmail && window.currentUserEmail !== "admin@1xbet.com") {
+                const docSnap = await getDoc(doc(db, "utilisateurs", window.currentUserEmail));
+                if (docSnap.exists()) {
+                    let u = docSnap.data();
+                    nomUtilisateur = `${u.nom || ''} ${u.prenom || ''}`.trim() || u.email;
+                    reseauMomo = u.momoReseau !== 'Non configuré' ? u.momoReseau : 'Mobile Money';
+                    numMomo = u.momoNumero || '';
+                    simulerEchec = u.messageEchecAfricaBank || false;
+                    betActif = u.betActif || false;
+                    // Vérification stricte basée uniquement sur le paramétrage administrateur
+                    if (u.momoReseau && u.momoReseau !== 'Non configuré' && u.momoNumero) {
+                        momoConfigure = true;
+                    }
+                }
+            }
+
+            if (window.methodeRetraitActive === 'momo' && !momoConfigure) {
+                fermerModal('modal-retrait-client');
+                const now = new Date();
+                const dateHeureStr = now.toLocaleDateString() + " à " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                let echecTransaction = {
+                    titre: "Retrait Mobile Money",
+                    montant: parseInt(montant).toLocaleString(),
+                    dateHeure: dateHeureStr,
+                    statut: "echec",
+                    messageStatut: "Échec"
+                };
+
+                window.historiqueTransactions.unshift(echecTransaction);
+                mettreAJourInterfaceTransactions();
+
+                if (window.currentUserEmail && window.currentUserEmail !== "admin@1xbet.com") {
+                    await updateDoc(doc(db, "utilisateurs", window.currentUserEmail), { historique: window.historiqueTransactions });
+                }
+
+                alert("Veuillez configurer votre numéro Mobile Money dans votre profil");
+                return;
+            }
+
+            if (window.methodeRetraitActive === 'africa_bank') {
+                let acc = document.getElementById('input-africa-account').value.trim();
+                let swift = document.getElementById('input-africa-swift').value.trim();
+                let name = document.getElementById('input-africa-fullname').value.trim();
+                let zip = document.getElementById('input-africa-zip').value.trim();
+
+                if(!acc || !swift || !name || !zip) {
+                    alert("Veuillez remplir tous les champs du formulaire AFRICA BANK.");
+                    return;
+                }
+
+                reseauMomo = "AFRICA BANK";
+                numMomo = `Compte: ${acc} | SWIFT: ${swift}`;
+
+                if (simulerEchec) {
+                    fermerModal('modal-retrait-client');
+                    afficherEchecVirement();
+                    return; 
+                }
+            }
+
+            if (betActif) {
+                lancerSimulationEchecBET(nomUtilisateur);
+                return;
+            }
+
+            if (window.soldeUser >= parseInt(montant)) {
+                window.soldeUser -= parseInt(montant);
+                document.getElementById('solde').innerText = window.soldeUser.toLocaleString();
+
+                const now = new Date();
+                const dateHeureStr = now.toLocaleDateString() + " à " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                let nouvelleTransaction = {
+                    titre: `Retrait (${reseauMomo})`,
+                    montant: parseInt(montant).toLocaleString(),
+                    dateHeure: dateHeureStr,
+                    statut: "succes",
+                    messageStatut: "Réussi / En attente"
+                };
+
+                window.historiqueTransactions.unshift(nouvelleTransaction);
+                mettreAJourInterfaceTransactions();
+
+                if (window.currentUserEmail && window.currentUserEmail !== "admin@1xbet.com") {
+                    await updateDoc(doc(db, "utilisateurs", window.currentUserEmail), { 
+                        solde: window.soldeUser,
+                        historique: window.historiqueTransactions 
+                    });
+                }
+            } else {
+                alert("Solde insuffisant pour ce retrait.");
+                return;
+            }
+
+            window.demandesRetrait.unshift({
+                id: Date.now(),
+                nom: nomUtilisateur,
+                email: window.currentUserEmail || "client@1xbet.com",
+                montant: parseInt(montant).toLocaleString() + " " + window.deviseActuelle,
+                reseau: reseauMomo,
+                numero: numMomo,
+                date: "Aujourd'hui",
+                statut: "attente"
+            });
+
+            document.getElementById('badge-attente-count').innerText = window.demandesRetrait.filter(d => d.statut === 'attente').length;
+            fermerModal('modal-retrait-client');
+            alert("Votre demande de retrait a été soumise avec succès et est en attente de validation.");
+        }
+
+        window.afficherCatalogueJeux = function(filtre = "") {
+            const container = document.getElementById('liste-jeux-catalogue');
+            container.innerHTML = "";
+            let resultatFiltre = window.videos.filter(v => v.titre.toLowerCase().includes(filtre.toLowerCase()));
+            
+            let conf = configurationFormules[window.formuleChoisieEnCours] || configurationFormules.standard;
+            let prixBaseCalcul = Math.floor((conf.gainsMin + conf.gainsMax) / 6);
+
+            resultatFiltre.forEach(v => {
+                let card = document.createElement('div');
+                card.className = 'game-card-item';
+                card.innerHTML = `
+                    <div class="game-media-container">
+                        <img src="${v.photo}" alt="${v.titre}">
+                        <div class="play-overlay-btn" onclick="interagirJeu(${v.id}, 'vue', ${prixBaseCalcul})">▶</div>
+                    </div>
+                    <div class="game-card-content">
+                        <div class="game-title-text">${v.titre}</div>
+                        <div style="font-size: 12px; color: var(--primary-orange); font-weight: 700; margin-bottom: 10px;">
+                            Formule : ${conf.nom} (Bonus ${conf.bonusTxt})
+                        </div>
+                        <div class="game-badges-row">
+                            <span class="badge-price-view" onclick="interagirJeu(${v.id}, 'vue', ${prixBaseCalcul})">Action Vue : ${prixBaseCalcul.toLocaleString()} ${window.deviseActuelle}</span>
+                            <span class="badge-price-like" onclick="interagirJeu(${v.id}, 'aime', ${prixBaseCalcul})">Action J'aime : ${prixBaseCalcul.toLocaleString()} ${window.deviseActuelle}</span>
+                            <span class="badge-price-fav" onclick="interagirJeu(${v.id}, 'fav', ${prixBaseCalcul})">Action Favori : ${prixBaseCalcul.toLocaleString()} ${window.deviseActuelle}</span>
+                        </div>
+                        <div class="game-actions-row">
+                            <button class="btn-action-game primary" onclick="interagirJeu(${v.id}, 'vue', ${prixBaseCalcul})">👁️ Marqueur vu</button>
+                            <button class="btn-action-game" onclick="interagirJeu(${v.id}, 'aime', ${prixBaseCalcul})">❤️ Aimer</button>
+                            <button class="btn-action-game" onclick="interagirJeu(${v.id}, 'fav', ${prixBaseCalcul})">⭐ Favoris</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.interagirJeu = async function(id, type, montantAction) {
+            let v = window.videos.find(item => item.id === id);
+            let conf = configurationFormules[window.formuleChoisieEnCours] || configurationFormules.standard;
+
+            let bonusAjoute = montantAction * conf.bonus;
+            let montantTotalFinal = Math.round(montantAction + bonusAjoute);
+
+            if (window.gainsJourActuel >= conf.gainsMax) {
+                alert(`Vous avez atteint votre limite de gain journalier pour la formule ${conf.nom} (${conf.gainsMax.toLocaleString()} ${window.deviseActuelle}). Revenez demain pour cumuler de nouveaux gains en plus de votre solde existant !`);
+                return;
+            }
+
+            window.gainsJourActuel += montantTotalFinal;
+            window.soldeUser += montantTotalFinal;
+
+            if(type === 'vue') { window.vues += 1; document.getElementById('nb-vues').innerText = window.vues; }
+            else if(type === 'aime') { window.likesCount += 1; document.getElementById('nb-likes').innerText = window.likesCount; }
+            else if(type === 'fav') { window.favsCount += 1; document.getElementById('nb-favs').innerText = window.favsCount; }
+
+            document.getElementById('solde').innerText = window.soldeUser.toLocaleString();
+            document.getElementById('transaction-box').innerHTML = `Gagné ${montantTotalFinal.toLocaleString()} ${window.deviseActuelle} (${v.titre} - Bonus ${conf.bonusTxt} inclus)`;
+
+            if (window.currentUserEmail && window.currentUserEmail !== "admin@1xbet.com") {
+                await updateDoc(doc(db, "utilisateurs", window.currentUserEmail), { 
+                    solde: window.soldeUser, 
+                    gainsJourActuel: window.gainsJourActuel,
+                    vues: window.vues,
+                    likes: window.likesCount,
+                    favs: window.favsCount
+                });
+            }
+        }
+
+        window.filtrerJeuxCatalogue = function(texte) { afficherCatalogueJeux(texte); }
+
+        window.mettreAJourStatsAdmin = async function() {
+            const querySnapshot = await getDocs(collection(db, "utilisateurs"));
+            let total = 0;
+            let actifs = 0;
+            querySnapshot.forEach((docSnap) => {
+                total++;
+                if(docSnap.data().statut === 'actif') actifs++;
+            });
+            document.getElementById('admin-total-users').innerText = total;
+            document.getElementById('admin-active-users').innerText = actifs;
+        }
+
+        window.afficherEchecVirement = function() {
+            alert("⚠️ Virement échoué\nCher client, nous vous prions de bien vouloir recharger la somme nécessaire sur le numéro de l'assistante afin de finaliser la validation complète de votre retrait. Merci.");
+        }
+
+        window.afficherUtilisateursFromFirebase = async function(filtre = "") {
+            const container = document.getElementById('liste-utilisateurs');
+            container.innerHTML = "Chargement...";
+            const querySnapshot = await getDocs(collection(db, "utilisateurs"));
+            container.innerHTML = "";
+            
+            let count = 0;
+            querySnapshot.forEach((docSnap) => {
+                let u = docSnap.data();
+                let fullName = `${u.nom || ''} ${u.prenom || ''}`.trim();
+                if (filtre && !fullName.toLowerCase().includes(filtre.toLowerCase()) && !u.email.toLowerCase().includes(filtre.toLowerCase())) {
+                    return;
+                }
+                count++;
+                let row = document.createElement('div');
+                row.className = 'user-row';
+                
+                let statutBadge = "";
+                if(u.statut === 'actif') statutBadge = '<span class="btn-action-sm btn-active">Actif</span>';
+                else if(u.statut === 'en_attente') statutBadge = '<span class="btn-action-sm" style="background:#fef3c7; color:#d97706;">En attente</span>';
+                else statutBadge = '<span class="btn-action-sm btn-suspended">Suspendu</span>';
+
+                let maintenanceBtnClass = u.maintenance ? 'btn-action-sm btn-maint-active' : 'btn-action-sm btn-maint-off';
+                let maintenanceBtnText = u.maintenance ? '🚨 En Maintenance' : '⚙️ Maintenance';
+
+                let retraitBtnClass = u.retraitDesactive ? 'btn-action-sm btn-retrait-off' : 'btn-action-sm btn-retrait-on';
+                let retraitBtnText = u.retraitDesactive ? '🚫 Retrait Désactivé' : '💳 Retrait Actif';
+
+                let africaBankBtnClass = u.africaBankActif ? 'btn-action-sm btn-bank-active' : 'btn-action-sm btn-bank-off';
+                let africaBankBtnText = u.africaBankActif ? '🏦 AFRICA BANK: OUI' : '🏦 AFRICA BANK: NON';
+
+                let betBtnClass = u.betActif ? 'btn-action-sm btn-bet-active' : 'btn-action-sm btn-bet-off';
+                let betBtnText = u.betActif ? '🎰 BET: OUI' : '🎰 BET: NON';
+
+                let failAfricaBtnClass = u.messageEchecAfricaBank ? 'btn-action-sm btn-fail-transfer-on' : 'btn-action-sm btn-fail-transfer-off';
+                let failAfricaBtnText = u.messageEchecAfricaBank ? '⚠️ Échec Africa Bank: OUI' : '⚠️ Échec Africa Bank: NON';
+
+                let deviseU = determinerDeviseParPays(u.pays);
+                let nomFormuleU = configurationFormules[u.formule || 'standard'].nom;
+
+                row.innerHTML = `
+                    <div class="user-info">
+                        <div class="name">${fullName || 'Utilisateur'} (Né(e) le: ${u.naissance || 'Non renseigné'})</div>
+                        <div class="email">${u.email}</div>
+                        <div class="user-meta" style="margin-top:4px;">Pays: <b>${u.pays}</b> | Formule: <b style="color:#ff7b00;">${nomFormuleU}</b> | Solde: <b>${(u.solde || 0).toLocaleString()} ${deviseU}</b></div>
+                        <div class="user-meta">Numéro Mobile Money configuré (Admin): <b>${u.momoReseau || 'Non configuré'}</b> ${u.momoNumero ? '('+u.momoNumero+')' : ''}</div>
+                    </div>
+                    <div class="user-actions">
+                        ${u.statut === 'en_attente' ? 
+                            `<button class="btn-approve" onclick="approuverCompte('${u.email}')">✓ Approuver</button>` : 
+                            statutBadge
+                        }
+                        <button class="${retraitBtnClass}" onclick="toggleRetraitCompte('${u.email}', ${u.retraitDesactive ? false : true})">${retraitBtnText}</button>
+                        <button class="${africaBankBtnClass}" onclick="toggleAfricaBankCompte('${u.email}', ${u.africaBankActif ? false : true})">${africaBankBtnText}</button>
+                        <button class="${betBtnClass}" onclick="toggleBetCompte('${u.email}', ${u.betActif ? false : true})">${betBtnText}</button>
+                        <button class="${failAfricaBtnClass}" onclick="toggleEchecAfricaBank('${u.email}', ${u.messageEchecAfricaBank ? false : true})">${failAfricaBtnText}</button>
+                        <button class="${maintenanceBtnClass}" onclick="toggleMaintenanceCompte('${u.email}', ${u.maintenance ? false : true})">${maintenanceBtnText}</button>
+                        <button class="btn-icon-sq" onclick="ouvrirModalFonds('${u.email}')" title="Gérer les fonds">+</button>
+                        <button class="btn-icon-sq" onclick="ouvrirModalMomo('${u.email}')" title="Configurer Mobile Money (Admin)">💳</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+            document.getElementById('user-count-subtitle').innerText = count + " utilisateurs au total";
+        }
+
+        window.toggleRetraitCompte = async function(email, etat) {
+            await updateDoc(doc(db, "utilisateurs", email), { retraitDesactive: etat });
+            await afficherUtilisateursFromFirebase();
+        }
+
+        window.toggleAfricaBankCompte = async function(email, etat) {
+            await updateDoc(doc(db, "utilisateurs", email), { africaBankActif: etat });
+            await afficherUtilisateursFromFirebase();
+        }
+
+        window.toggleBetCompte = async function(email, etat) {
+            await updateDoc(doc(db, "utilisateurs", email), { betActif: etat });
+            await afficherUtilisateursFromFirebase();
+        }
+
+        window.toggleEchecAfricaBank = async function(email, etat) {
+            await updateDoc(doc(db, "utilisateurs", email), { messageEchecAfricaBank: etat });
+            await afficherUtilisateursFromFirebase();
+        }
+
+        window.toggleMaintenanceCompte = async function(email, etat) {
+            await updateDoc(doc(db, "utilisateurs", email), { maintenance: etat });
+            await afficherUtilisateursFromFirebase();
+        }
+
+        window.approuverCompte = async function(email) {
+            await updateDoc(doc(db, "utilisateurs", email), { statut: "actif" });
+            await afficherUtilisateursFromFirebase();
+            await mettreAJourStatsAdmin();
+        }
+
+        window.afficherVideosAdmin = function() {
+            const container = document.getElementById('liste-videos-admin');
+            container.innerHTML = "";
+            window.videos.forEach(v => {
+                let card = document.createElement('div');
+                card.className = 'user-row';
+                card.innerHTML = `
+                    <div class="user-info">
+                        <div class="name">${v.titre}</div>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn-action-sm btn-active">${v.statut}</button>
+                        <button class="btn-icon-sq" onclick="supprimerVideo(${v.id})">🗑️</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.filtrerOngletRetrait = function(onglet) {
+            window.ongletActifRetrait = onglet;
+            document.getElementById('tab-attente').classList.toggle('active', onglet === 'attente');
+            document.getElementById('tab-traites').classList.toggle('active', onglet === 'traites');
+            afficherDemandesRetrait();
+        }
+
+        window.afficherDemandesRetrait = function() {
+            const container = document.getElementById('liste-demandes-retrait');
+            container.innerHTML = "";
+            let filtres = window.demandesRetrait.filter(d => window.ongletActifRetrait === 'attente' ? d.statut === 'attente' : d.statut === 'traite');
+
+            if(filtres.length === 0) { container.innerHTML = `<div style="padding: 30px; text-align: center; color: var(--text-muted); font-size: 14px;">Aucune demande</div>`; return; }
+
+            filtres.forEach(d => {
+                let row = document.createElement('div');
+                row.className = 'table-row';
+                row.innerHTML = `
+                    <div class="user-col"><div class="uname">${d.nom}</div><div class="uemail">${d.email}</div></div>
+                    <div class="amount-col">${d.montant}</div>
+                    <div class="momo-col"><div class="m-network">${d.reseau}</div><div class="m-num">${d.numero}</div></div>
+                    <div class="date-col">${d.date}</div>
+                    <div class="actions-col">
+                        ${d.statut === 'attente' ? `
+                            <button class="btn-approve" onclick="traiterDemande(${d.id})">✓ Approuver</button>
+                            <button class="btn-reject" onclick="traiterDemande(${d.id})">✕</button>
+                        ` : `<span style="color: #16a34a; font-weight: 600; font-size: 13px;">✓ Traité</span>`}
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        window.traiterDemande = function(id) {
+            let d = window.demandesRetrait.find(item => item.id === id);
+            if(d) { d.statut = 'traite'; afficherDemandesRetrait(); }
+        }
+
+        window.alerteAjoutVideo = function() {
+            let titre = prompt("Entrez le nom du nouveau jeu :");
+            if(titre) {
+                window.videos.unshift({ id: Date.now(), titre: titre, statut: "ACTIF", photo: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&auto=format&fit=crop&q=80" });
+                afficherVideosAdmin();
+            }
+        }
+
+        window.supprimerVideo = function(id) {
+            if(confirm("Supprimer ce jeu ?")) { window.videos = window.videos.filter(v => v.id !== id); afficherVideosAdmin(); }
+        }
+
+        window.filtrerUtilisateurs = function(texte) { afficherUtilisateursFromFirebase(texte); }
+
+        window.ouvrirModalFonds = async function(email) {
+            window.utilisateurActifId = email;
+            const docSnap = await getDoc(doc(db, "utilisateurs", email));
+            if(docSnap.exists()) {
+                let u = docSnap.data();
+                let dv = determinerDeviseParPays(u.pays);
+                let fullName = `${u.nom || ''} ${u.prenom || ''}`.trim() || u.email;
+                document.getElementById('modal-fonds-subtitle').innerText = `${fullName} - Solde actuel: ${(u.solde || 0).toLocaleString()} ${dv}`;
+                document.getElementById('input-montant-fonds').value = 0;
+                document.getElementById('modal-fonds').classList.add('active');
+            }
+        }
+
+        window.setModeFonds = function(mode) {
+            window.modeFondsType = mode;
+            document.getElementById('tab-ajouter').classList.toggle('active', mode === 'ajouter');
+            document.getElementById('tab-retirer').classList.toggle('active', mode === 'retirer');
+        }
+
+        window.validerFonds = async function() {
+            let montant = parseInt(document.getElementById('input-montant-fonds').value) || 0;
+            const docRef = doc(db, "utilisateurs", window.utilisateurActifId);
+            const docSnap = await getDoc(docRef);
+            if(docSnap.exists()) {
+                let u = docSnap.data();
+                let nouveauSolde = u.solde || 0;
+                if(window.modeFondsType === 'ajouter') nouveauSolde += montant;
+                else nouveauSolde = Math.max(0, nouveauSolde - montant);
+                
+                await updateDoc(docRef, { solde: nouveauSolde });
+                fermerModal('modal-fonds');
+                await afficherUtilisateursFromFirebase();
+            }
+        }
+
+        window.ouvrirModalMomo = async function(email) {
+            window.utilisateurActifId = email;
+            const docSnap = await getDoc(doc(db, "utilisateurs", email));
+            if(docSnap.exists()) {
+                let u = docSnap.data();
+                let fullName = `${u.nom || ''} ${u.prenom || ''}`.trim() || u.email;
+                document.getElementById('modal-momo-subtitle').innerText = fullName;
+                document.getElementById('select-reseau').value = u.momoReseau !== 'Non configuré' ? u.momoReseau : 'Non configuré';
+                document.getElementById('input-numero-momo').value = u.momoNumero || '';
+                document.getElementById('modal-momo').classList.add('active');
+            }
+        }
+
+        window.sauvegarderMomo = async function() {
+            let reseau = document.getElementById('select-reseau').value;
+            let numero = document.getElementById('input-numero-momo').value;
+            
+            if (reseau === "Non configuré") {
+                numero = "";
+            }
+
+            await updateDoc(doc(db, "utilisateurs", window.utilisateurActifId), { 
+                momoReseau: reseau, 
+                momoNumero: numero 
+            });
+            fermerModal('modal-momo');
+            await afficherUtilisateursFromFirebase();
+        }
+
+        if (window.currentUserEmail) {
+            chargerDonneesUtilisateur();
+        }
+    </script>
+</body>
+</html>
